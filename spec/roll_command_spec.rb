@@ -2,16 +2,18 @@ require 'rspec'
 require_relative '../roll_command'
 require_relative '../estate'
 require_relative '../starting_point'
+require_relative '../gift_house'
 
 describe RollCommand do
   before(:all) do
     INITIAL_BALANCE = 1000
+    INITIAL_POINT = 0
     ESTATE_PRICE = 200
   end
 
   before(:each) do
     @map = double
-    @player = Player.new @map, INITIAL_BALANCE
+    @player = Player.new @map, INITIAL_BALANCE, INITIAL_POINT
     @player.startTurn
     @command = RollCommand.new
 
@@ -44,7 +46,7 @@ describe RollCommand do
 
     it 'should move player to others estate then turn end' do
       estate = Estate.new 0, ESTATE_PRICE
-      estate.owner = Player.new @map, 0
+      estate.owner = Player.new @map, 0, 0
       allow(@map).to receive(:place_at).with(1) { estate }
 
       @player.execute @command
@@ -61,6 +63,16 @@ describe RollCommand do
 
       expect(@player.location).to eq(1)
       expect(@player.status).to eq(Player::Status::TURN_END)
+    end
+
+    it 'should move player to gift house then wait for response' do
+      gift_house = GiftHouse.new 0
+      allow(@map).to receive(:place_at).with(1) { gift_house }
+
+      @player.execute @command
+
+      expect(@player.location).to eq(1)
+      expect(@player.status).to eq(Player::Status::WAIT_FOR_RESPONSE)
     end
 
   end
@@ -161,7 +173,7 @@ describe RollCommand do
 
       before(:each) do
         @estate = Estate.new 0, ESTATE_PRICE
-        @estate.owner = Player.new @map, 0
+        @estate.owner = Player.new @map, 0, 0
         allow(@map).to receive(:place_at).with(1) { @estate }
       end
 
@@ -231,6 +243,42 @@ describe RollCommand do
         expect(@player.money).to eq(0)
         expect(@estate.owner.money).to eq(0)
         expect(@player.status).to eq(Player::Status::BROKEN)
+      end
+
+    end
+
+    describe 'player visit gift house' do
+
+      before(:each) do
+        @gift_house = GiftHouse.new 0
+        allow(@map).to receive(:place_at).with(1) { @gift_house }
+
+        @player.execute @command
+
+        expect(@player.location).to eq(1)
+        expect(@player.status).to eq(Player::Status::WAIT_FOR_RESPONSE)
+      end
+
+      it 'should gain money then turn end when player respond 1' do
+        @player.respond 1
+
+        expect(@player.money).to eq(INITIAL_BALANCE + 2000)
+      end
+
+      it 'should gain money then turn end when player respond 1' do
+        @player.respond 2
+
+        expect(@player.point).to eq(INITIAL_POINT + 200)
+      end
+
+      it 'should gain money then turn end when player respond 1' do
+        @player.respond 3
+
+        expect(@player.has_evisu?).to eq(5)
+      end
+
+      after(:each) do
+        expect(@player.status).to eq(Player::Status::TURN_END)
       end
 
     end

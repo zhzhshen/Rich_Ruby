@@ -77,7 +77,7 @@ class ChargeLandCommand
   end
 
   def execute(player)
-    unless @estate.owner.in_hospital? | @estate.owner.in_prison? | player.has_evisu?
+    unless @estate.owner.in_hospital? || @estate.owner.in_prison? || player.has_evisu?
       charge = 2**@estate.level * @estate.price / 2
       if (player.reduce_money charge)
         @estate.owner.gain_money charge

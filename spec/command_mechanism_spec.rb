@@ -7,7 +7,7 @@ describe Player do
   describe ('#execute') do
 
     before(:each) do
-      @player = Player.new double, 1000
+      @player = Player.new double, 1000, 0
       @player.startTurn
       @command = double
       expect(@player.status).to eq(Player::Status::WAIT_FOR_COMMAND)

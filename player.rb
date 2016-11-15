@@ -1,12 +1,13 @@
 
 class Player
-  attr_accessor :status, :location, :map, :money
+  attr_accessor :status, :location, :map, :money, :point
 
-  def initialize(map, money)
+  def initialize(map, money, point)
     @map = map
     @location = 0
     @money = money
     @special_status = Hash.new
+    @point = point
   end
 
   def startTurn
@@ -34,12 +35,16 @@ class Player
     @money += amount
   end
 
+  def gain_point(amount)
+    @point += amount
+  end
+
   def burn
     @special_status[:IN_HOSPITAL] = 3
   end
 
   def in_hospital?
-    !!@special_status[:IN_HOSPITAL]
+    @special_status[:IN_HOSPITAL]
   end
 
   def prisoned
@@ -47,7 +52,7 @@ class Player
   end
 
   def in_prison?
-    !!@special_status[:IN_PRISON]
+    @special_status[:IN_PRISON]
   end
 
   def evisu
@@ -55,7 +60,7 @@ class Player
   end
 
   def has_evisu?
-    !!@special_status[:HAS_EVISU]
+    @special_status[:HAS_EVISU]
   end
 
   module Status

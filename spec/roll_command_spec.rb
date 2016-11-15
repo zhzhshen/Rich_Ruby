@@ -6,6 +6,7 @@ require_relative '../starting_point'
 require_relative '../gift_house'
 require_relative '../magic_house'
 require_relative '../hospital'
+require_relative '../police'
 
 describe RollCommand do
   before(:all) do
@@ -94,6 +95,17 @@ describe RollCommand do
 
       @player.execute @command
 
+      expect(@player.location).to eq(1)
+      expect(@player.status).to eq(Player::Status::TURN_END)
+    end
+
+    it 'should move player to police and skip two turns then turn end' do
+      police = Police.new 0
+      allow(@map).to receive(:place_at).with(1) { police }
+
+      @player.execute @command
+
+      expect(@player.in_prison?).to eq(2)
       expect(@player.location).to eq(1)
       expect(@player.status).to eq(Player::Status::TURN_END)
     end

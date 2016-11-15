@@ -17,7 +17,7 @@ class GameMap
   end
 
   def place_at(position)
-    # todo
+    @places.select { |place| place.position.equal? position}.first
   end
 
   def player_at(position)

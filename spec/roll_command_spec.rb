@@ -1,6 +1,7 @@
 require 'rspec'
 require_relative '../roll_command'
 require_relative '../estate'
+require_relative '../starting_point'
 
 describe RollCommand do
   before(:all) do
@@ -45,6 +46,16 @@ describe RollCommand do
       estate = Estate.new 0, ESTATE_PRICE
       estate.owner = Player.new @map, 0
       allow(@map).to receive(:place_at).with(1) { estate }
+
+      @player.execute @command
+
+      expect(@player.location).to eq(1)
+      expect(@player.status).to eq(Player::Status::TURN_END)
+    end
+
+    it 'should move player to starting point then turn end' do
+      starting_point = StartingPoint.new 0
+      allow(@map).to receive(:place_at).with(1) { starting_point }
 
       @player.execute @command
 

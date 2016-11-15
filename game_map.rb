@@ -28,4 +28,13 @@ class GameMap
     target = start + step
     target > @places.size ? target % @places.size : target
   end
+
+  def clear_items(start, step)
+    target = self.move_step_forward start, step
+    @items = @items.select {|pos, item| self.in_between(pos, start, target)}
+  end
+
+  def in_between(index, start, target)
+    (start <= index && index <= target ) || (index <= target && target <= start) || (target <= start && start <= index)
+  end
 end

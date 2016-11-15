@@ -1,6 +1,12 @@
 
 class Player
-  attr_accessor :status
+  attr_accessor :status, :location, :map, :money
+
+  def initialize(map, money)
+    @map = map
+    @location = 0
+    @money = money
+  end
 
   def startTurn
     @status = Status::WAIT_FOR_COMMAND
@@ -13,6 +19,14 @@ class Player
 
   def respond(response)
     @command.respond self, response
+  end
+
+  def visit
+    @map.place_at(@location).visit_by self
+  end
+
+  def reduce_money(amount)
+    @money -= amount unless @money < amount
   end
 
   module Status

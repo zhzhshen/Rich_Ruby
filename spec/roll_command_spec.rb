@@ -119,16 +119,16 @@ describe RollCommand do
       expect(@player.status).to eq(Player::Status::WAIT_FOR_RESPONSE)
     end
 
-    # it 'should move player to tool house then turn end when not enough point for cheapest tool' do
-    #   @player.point = 0
-    #   tool_house = ToolHouse.new 0
-    #   allow(@map).to receive(:place_at).with(1) { tool_house }
-    #
-    #   @player.execute @command
-    #
-    #   expect(@player.location).to eq(1)
-    #   expect(@player.status).to eq(Player::Status::TURN_END)
-    # end
+    it 'should move player to tool house then turn end when not enough point for cheapest tool' do
+      @player.point = 0
+      tool_house = ToolHouse.new 0
+      allow(@map).to receive(:place_at).with(1) { tool_house }
+
+      @player.execute @command
+
+      expect(@player.location).to eq(1)
+      expect(@player.status).to eq(Player::Status::TURN_END)
+    end
 
   end
 

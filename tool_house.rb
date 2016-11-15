@@ -3,14 +3,13 @@ require './place'
 class ToolHouse < Place
   def visit_by(player)
     player.execute BuyToolCommand.new
-    player.status = Player::Status::WAIT_FOR_RESPONSE
   end
 end
 
 class BuyToolCommand
 
   def execute(player)
-    player.status = Player::Status::WAIT_FOR_RESPONSE
+    self.has_point_for_cheapest?(player) ? player.status = Player::Status::WAIT_FOR_RESPONSE : player.status = Player::Status::TURN_END
   end
 
   def respond(player, response)

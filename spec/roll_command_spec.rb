@@ -10,11 +10,9 @@ require_relative '../police'
 require_relative '../tool_house'
 
 describe RollCommand do
-  before(:all) do
-    INITIAL_BALANCE = 1000
-    INITIAL_POINT = 200
-    ESTATE_PRICE = 200
-  end
+  INITIAL_BALANCE = 1000
+  INITIAL_POINT = 200
+  ESTATE_PRICE = 200
 
   before(:each) do
     @map = double

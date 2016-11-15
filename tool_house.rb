@@ -1,3 +1,4 @@
+require './place'
 
 class ToolHouse < Place
   def visit_by(player)
@@ -7,20 +8,6 @@ class ToolHouse < Place
 end
 
 class BuyToolCommand
-  BLOCK_POINT = 50
-  ROBOT_POINT = 30
-  BOMB_POINT = 50
-  class Block
-    @point = BLOCK_POINT
-  end
-
-  class Robot
-    @point = ROBOT_POINT
-  end
-
-  class Bomb
-    @point = BOMB_POINT
-  end
 
   def execute(player)
     player.status = Player::Status::WAIT_FOR_RESPONSE
@@ -30,12 +17,12 @@ class BuyToolCommand
     case response
       when 1
         if player.reduce_point(BLOCK_POINT)
-          player.items.push Block.new
+          player.items.push BLOCK
           self.has_point_for_cheapest?(player) ? player.status = Player::Status::WAIT_FOR_RESPONSE : player.status = Player::Status::TURN_END
         end
       when 2
         if player.reduce_point(ROBOT_POINT)
-          player.items.push Robot.new
+          player.items.push ROBOT
           self.has_point_for_cheapest?(player) ? player.status = Player::Status::WAIT_FOR_RESPONSE : player.status = Player::Status::TURN_END
         end
       when 3
@@ -52,3 +39,23 @@ class BuyToolCommand
     player.point >= [BOMB_POINT, ROBOT_POINT, BLOCK_POINT].min
   end
 end
+
+BLOCK_POINT = 50
+ROBOT_POINT = 30
+BOMB_POINT = 50
+
+class Block
+  @point = BLOCK_POINT
+end
+
+class Robot
+  @point = ROBOT_POINT
+end
+
+class Bomb
+  @point = BOMB_POINT
+end
+
+BOMB = Bomb.new
+BLOCK = Block.new
+ROBOT = Robot.new

@@ -1,4 +1,4 @@
-class RollCommand
+class RollCommand < Command
   def roll
     1
   end

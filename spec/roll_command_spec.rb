@@ -261,6 +261,7 @@ describe RollCommand do
       end
 
       it 'should not pay then turn end when owner is in hospital' do
+        allow(@map).to receive(:get_hospital_location) {1}
         @estate.owner.burn
 
         @player.execute @command

@@ -45,6 +45,9 @@ BOMB_POINT = 50
 
 class Block
   @point = BLOCK_POINT
+  def trigger(player, position)
+    player.location = position
+  end
 end
 
 class Robot
@@ -53,6 +56,9 @@ end
 
 class Bomb
   @point = BOMB_POINT
+  def trigger(player, position)
+    player.burn
+  end
 end
 
 BOMB = Bomb.new

@@ -46,6 +46,7 @@ class Player
 
   def burn
     @special_status[:IN_HOSPITAL] = 3
+    @location = @map.get_hospital_location
   end
 
   def in_hospital?

@@ -24,6 +24,18 @@ class GameMap
     @players.select { |player| player.location.equal? position }.first
   end
 
+  def move(player, step)
+    target = self.move_step_forward player.location, step
+    item = @items.select {|pos, item| self.in_between(pos, player.location, target)}.first
+    if !item.nil?
+      @items.delete item
+      item[1].new.trigger(player, item[0])
+    else
+      player.location = target
+    end
+
+  end
+
   def move_step_forward(start, step)
     target = start + step
     target > @places.size ? target % @places.size : target
@@ -36,5 +48,9 @@ class GameMap
 
   def in_between(index, start, target)
     (start <= index && index <= target ) || (index <= target && target <= start) || (target <= start && start <= index)
+  end
+
+  def get_hospital_location
+    @places.select {|place| place.instance_of?Hospital}.map{|place|place.position}.first
   end
 end

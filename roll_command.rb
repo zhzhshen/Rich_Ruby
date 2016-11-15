@@ -1,6 +1,11 @@
 class RollCommand < Command
+
+  def initialize(dice = lambda {1})
+    @dice = dice
+  end
+
   def roll
-    1
+    @dice.call
   end
 
   def execute(player)

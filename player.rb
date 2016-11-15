@@ -1,12 +1,13 @@
 
 class Player
-  attr_accessor :status, :location, :map, :money, :point
+  attr_accessor :status, :location, :map, :money, :point, :items
 
   def initialize(map, money, point)
     @map = map
     @location = 0
     @money = money
     @special_status = Hash.new
+    @items = Array.new
     @point = point
   end
 
@@ -33,6 +34,10 @@ class Player
 
   def gain_money(amount)
     @money += amount
+  end
+
+  def reduce_point(amount)
+    @point -= amount unless @point < amount
   end
 
   def gain_point(amount)

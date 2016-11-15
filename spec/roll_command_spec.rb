@@ -7,11 +7,12 @@ require_relative '../gift_house'
 require_relative '../magic_house'
 require_relative '../hospital'
 require_relative '../police'
+require_relative '../tool_house'
 
 describe RollCommand do
   before(:all) do
     INITIAL_BALANCE = 1000
-    INITIAL_POINT = 0
+    INITIAL_POINT = 200
     ESTATE_PRICE = 200
   end
 
@@ -109,6 +110,27 @@ describe RollCommand do
       expect(@player.location).to eq(1)
       expect(@player.status).to eq(Player::Status::TURN_END)
     end
+
+    it 'should move player to tool house then wait for response' do
+      tool_house = ToolHouse.new 0
+      allow(@map).to receive(:place_at).with(1) { tool_house }
+
+      @player.execute @command
+
+      expect(@player.location).to eq(1)
+      expect(@player.status).to eq(Player::Status::WAIT_FOR_RESPONSE)
+    end
+
+    # it 'should move player to tool house then turn end when not enough point for cheapest tool' do
+    #   @player.point = 0
+    #   tool_house = ToolHouse.new 0
+    #   allow(@map).to receive(:place_at).with(1) { tool_house }
+    #
+    #   @player.execute @command
+    #
+    #   expect(@player.location).to eq(1)
+    #   expect(@player.status).to eq(Player::Status::TURN_END)
+    # end
 
   end
 
@@ -300,13 +322,13 @@ describe RollCommand do
         expect(@player.money).to eq(INITIAL_BALANCE + 2000)
       end
 
-      it 'should gain money then turn end when player respond 1' do
+      it 'should gain point then turn end when player respond 2' do
         @player.respond 2
 
         expect(@player.point).to eq(INITIAL_POINT + 200)
       end
 
-      it 'should gain money then turn end when player respond 1' do
+      it 'should gain evisu then turn end when player respond 3' do
         @player.respond 3
 
         expect(@player.has_evisu?).to eq(5)
@@ -316,6 +338,84 @@ describe RollCommand do
         expect(@player.status).to eq(Player::Status::TURN_END)
       end
 
+    end
+
+    describe 'player visit tool house' do
+
+      before(:each) do
+        @tool_house = ToolHouse.new 0
+        allow(@map).to receive(:place_at).with(1) { @tool_house }
+
+        @player.execute @command
+
+        expect(@player.location).to eq(1)
+        expect(@player.status).to eq(Player::Status::WAIT_FOR_RESPONSE)
+      end
+
+      it 'should success to buy block when player respond 1 with enough point' do
+        @player.respond 1
+
+        expect(@player.point).to eq(INITIAL_POINT - 50)
+        expect(@player.items.size).to eq(1)
+        expect(@player.status).to eq(Player::Status::WAIT_FOR_RESPONSE)
+      end
+
+      it 'should fail to buy block when player respond 1 with not enough point' do
+        @player.point = 40
+        @player.respond 1
+
+        expect(@player.point).to eq(40)
+        expect(@player.items.size).to eq(0)
+        expect(@player.status).to eq(Player::Status::WAIT_FOR_RESPONSE)
+      end
+
+      it 'should success to buy robot when player respond 2 with enough point' do
+        @player.respond 2
+
+        expect(@player.point).to eq(INITIAL_POINT - 30)
+        expect(@player.items.size).to eq(1)
+        expect(@player.status).to eq(Player::Status::WAIT_FOR_RESPONSE)
+      end
+
+      it 'should success to buy bomb when player respond 3 with enough point' do
+        @player.respond 3
+
+        expect(@player.point).to eq(INITIAL_POINT - 50)
+        expect(@player.items.size).to eq(1)
+        expect(@player.status).to eq(Player::Status::WAIT_FOR_RESPONSE)
+      end
+
+      it 'should fail to buy bomb when player respond 3 with not enough point' do
+        @player.point = 40
+        @player.respond 3
+
+        expect(@player.point).to eq(40)
+        expect(@player.items.size).to eq(0)
+        expect(@player.status).to eq(Player::Status::WAIT_FOR_RESPONSE)
+      end
+
+      it 'should turn end when buyed a bomb then no enough point for cheapest' do
+        @player.point = 80
+        @player.respond 3
+
+        expect(@player.point).to eq(30)
+        expect(@player.items.size).to eq(1)
+        expect(@player.status).to eq(Player::Status::WAIT_FOR_RESPONSE)
+
+        @player.respond 2
+
+        expect(@player.point).to eq(0)
+        expect(@player.items.size).to eq(2)
+        expect(@player.status).to eq(Player::Status::TURN_END)
+      end
+
+      it 'should turn end when player respond no' do
+        @player.respond 'n'
+
+        expect(@player.point).to eq(INITIAL_POINT)
+        expect(@player.items.size).to eq(0)
+        expect(@player.status).to eq(Player::Status::TURN_END)
+      end
     end
   end
 

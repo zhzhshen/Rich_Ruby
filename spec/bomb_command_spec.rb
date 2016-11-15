@@ -1,11 +1,11 @@
 require 'rspec'
-require_relative '../block_command'
+require_relative '../bomb_command'
 require_relative '../starting_point'
 require_relative '../game_map'
 require_relative '../estate'
 require_relative '../game'
 
-describe BlockCommand do
+describe BombCommand do
 
   describe '#execute' do
 
@@ -19,16 +19,16 @@ describe BlockCommand do
       expect(@player.status).to eq(Player::Status::WAIT_FOR_COMMAND)
     end
 
-    it 'should put block at N steps forward' do
-      @player.items.push BLOCK
+    it 'should put bomb at N steps forward' do
+      @player.items.push BOMB
       expect(@player.items.size).to eq(1)
 
-      command = BlockCommand.new 1
+      command = BombCommand.new 1
 
       @player.execute command
 
       expect(@player.items.size).to eq(0)
-      expect(@map.item_at(1)).to eq(BLOCK)
+      expect(@map.item_at(1)).to eq(BOMB)
     end
 
     it 'should turn end when player has no bomb' do
@@ -41,27 +41,27 @@ describe BlockCommand do
     end
 
     it 'should turn end when there is another item' do
-      @player.items.push BLOCK
-      command = BlockCommand.new 1
+      @player.items.push BOMB
+      command = BombCommand.new 1
 
       @player.execute command
 
       expect(@player.items.size).to eq(0)
-      expect(@map.item_at(1)).to eq(BLOCK)
+      expect(@map.item_at(1)).to eq(BOMB)
 
-      @player.items.push BLOCK
-      command = BlockCommand.new 1
+      @player.items.push BOMB
+      command = BombCommand.new 1
 
       @player.execute command
 
       expect(@player.items.size).to eq(1)
-      expect(@map.item_at(1)).to eq(BLOCK)
+      expect(@map.item_at(1)).to eq(BOMB)
     end
 
     it 'should turn end when there is player' do
-      @player.items.push BLOCK
+      @player.items.push BOMB
       expect(@player.items.size).to eq(1)
-      command = BlockCommand.new 0
+      command = BombCommand.new 0
 
       @player.execute command
 
@@ -71,14 +71,14 @@ describe BlockCommand do
     end
 
     it 'should turn end when step is further than 10' do
-      @player.items.push BLOCK
+      @player.items.push BOMB
       expect(@player.items.size).to eq(1)
-      command = BlockCommand.new 11
+      command = BombCommand.new 11
 
       @player.execute command
 
       expect(@player.items.size).to eq(1)
-      command = BlockCommand.new 9
+      command = BombCommand.new 9
 
       @player.execute command
 

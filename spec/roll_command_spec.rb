@@ -1,8 +1,11 @@
 require 'rspec'
 require_relative '../roll_command'
+require_relative '../place'
 require_relative '../estate'
 require_relative '../starting_point'
 require_relative '../gift_house'
+require_relative '../magic_house'
+require_relative '../hospital'
 
 describe RollCommand do
   before(:all) do
@@ -73,6 +76,26 @@ describe RollCommand do
 
       expect(@player.location).to eq(1)
       expect(@player.status).to eq(Player::Status::WAIT_FOR_RESPONSE)
+    end
+
+    it 'should move player to magic house then wait turn end' do
+      magic_house = MagicHouse.new 0
+      allow(@map).to receive(:place_at).with(1) { magic_house }
+
+      @player.execute @command
+
+      expect(@player.location).to eq(1)
+      expect(@player.status).to eq(Player::Status::TURN_END)
+    end
+
+    it 'should move player to hospital then wait turn end' do
+      hospital = Hospital.new 0
+      allow(@map).to receive(:place_at).with(1) { hospital }
+
+      @player.execute @command
+
+      expect(@player.location).to eq(1)
+      expect(@player.status).to eq(Player::Status::TURN_END)
     end
 
   end

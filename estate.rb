@@ -1,4 +1,4 @@
-class Estate
+class Estate < Place
   MAX_LEVEL = 3
   attr_accessor :position, :price, :owner, :level
 

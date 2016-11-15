@@ -1,9 +1,5 @@
 
-class GiftHouse
-  def initialize(position)
-    @position = position
-  end
-
+class GiftHouse < Place
   def visit_by(player)
     player.execute ChooseGiftCommand.new
   end

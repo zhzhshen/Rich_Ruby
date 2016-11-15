@@ -1,0 +1,3 @@
+
+class MagicHouse < Place
+end

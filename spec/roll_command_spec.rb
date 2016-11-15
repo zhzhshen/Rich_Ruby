@@ -20,7 +20,7 @@ describe RollCommand do
   end
 
   describe '#execute' do
-    it 'should move player to empty estate' do
+    it 'should move player to empty estate then wait for response' do
       estate = Estate.new 0, ESTATE_PRICE
       allow(@map).to receive(:place_at).with(1) { estate }
 
@@ -30,7 +30,7 @@ describe RollCommand do
       expect(@player.status).to eq(Player::Status::WAIT_FOR_RESPONSE)
     end
 
-    it 'should move player to empty estate' do
+    it 'should move player to own estate then wait for response' do
       estate = Estate.new 0, ESTATE_PRICE
       estate.owner = @player
       allow(@map).to receive(:place_at).with(1) { estate }
@@ -39,6 +39,17 @@ describe RollCommand do
 
       expect(@player.location).to eq(1)
       expect(@player.status).to eq(Player::Status::WAIT_FOR_RESPONSE)
+    end
+
+    it 'should move player to others estate then turn end' do
+      estate = Estate.new 0, ESTATE_PRICE
+      estate.owner = Player.new @map, 0
+      allow(@map).to receive(:place_at).with(1) { estate }
+
+      @player.execute @command
+
+      expect(@player.location).to eq(1)
+      expect(@player.status).to eq(Player::Status::TURN_END)
     end
 
   end
@@ -133,6 +144,84 @@ describe RollCommand do
       after(:each) do
         expect(@player.status).to eq(Player::Status::TURN_END)
       end
+    end
+
+    describe 'player visit others estate' do
+
+      before(:each) do
+        @estate = Estate.new 0, ESTATE_PRICE
+        @estate.owner = Player.new @map, 0
+        allow(@map).to receive(:place_at).with(1) { @estate }
+      end
+
+      it 'should pay half estate price then turn end when level 0' do
+        @player.execute @command
+
+        expect(@player.money).to eq(INITIAL_BALANCE - ESTATE_PRICE / 2)
+        expect(@estate.owner.money).to eq(ESTATE_PRICE / 2)
+        expect(@player.status).to eq(Player::Status::TURN_END)
+      end
+
+      it 'should pay estate price then turn end when level 1' do
+        @estate.level = 1
+
+        @player.execute @command
+
+        expect(@player.money).to eq(INITIAL_BALANCE - ESTATE_PRICE)
+        expect(@estate.owner.money).to eq(ESTATE_PRICE)
+        expect(@player.status).to eq(Player::Status::TURN_END)
+      end
+
+      it 'should pay four times of estate price then turn end when level 3' do
+        @estate.level = 3
+
+        @player.execute @command
+
+        expect(@player.money).to eq(INITIAL_BALANCE - ESTATE_PRICE * 4)
+        expect(@estate.owner.money).to eq(ESTATE_PRICE * 4)
+        expect(@player.status).to eq(Player::Status::TURN_END)
+      end
+
+      it 'should not pay then turn end when owner is in hospital' do
+        @estate.owner.burn
+
+        @player.execute @command
+
+        expect(@player.money).to eq(INITIAL_BALANCE)
+        expect(@estate.owner.money).to eq(0)
+        expect(@player.status).to eq(Player::Status::TURN_END)
+      end
+
+      it 'should not pay then turn end when owner is in prison' do
+        @estate.owner.prisoned
+
+        @player.execute @command
+
+        expect(@player.money).to eq(INITIAL_BALANCE)
+        expect(@estate.owner.money).to eq(0)
+        expect(@player.status).to eq(Player::Status::TURN_END)
+      end
+
+      it 'should not pay then turn end when player has evisu' do
+        @player.evisu
+
+        @player.execute @command
+
+        expect(@player.money).to eq(INITIAL_BALANCE)
+        expect(@estate.owner.money).to eq(0)
+        expect(@player.status).to eq(Player::Status::TURN_END)
+      end
+
+      it 'should broke when player has no enough money to pay' do
+        @player.money = 0
+
+        @player.execute @command
+
+        expect(@player.money).to eq(0)
+        expect(@estate.owner.money).to eq(0)
+        expect(@player.status).to eq(Player::Status::BROKEN)
+      end
+
     end
   end
 

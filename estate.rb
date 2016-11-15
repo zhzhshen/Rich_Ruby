@@ -13,6 +13,8 @@ class Estate
       player.execute BuyLandCommand.new self
     elsif @owner.equal? player
       player.execute BuildLandCommand.new self
+    else
+      player.execute ChargeLandCommand.new self
     end
   end
 
@@ -64,6 +66,25 @@ class BuildLandCommand
         if !@estate.max_level? && player.reduce_money(@estate.price)
           @estate.build
         end
+    end
+    player.status = Player::Status::TURN_END
+  end
+end
+
+class ChargeLandCommand
+  def initialize(estate)
+    @estate = estate
+  end
+
+  def execute(player)
+    unless @estate.owner.in_hospital? | @estate.owner.in_prison? | player.has_evisu?
+      charge = 2**@estate.level * @estate.price / 2
+      if (player.reduce_money charge)
+        @estate.owner.gain_money charge
+      else
+        @estate.owner.gain_money player.money
+        return player.status = Player::Status::BROKEN
+      end
     end
     player.status = Player::Status::TURN_END
   end

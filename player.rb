@@ -12,14 +12,29 @@ class Player
     @name = name
     @legend = legend
     @color = color
+    @status = Status::TURN_END
   end
 
   def print_map
     print @legend
   end
 
-  def startTurn
-    @status = Status::WAIT_FOR_COMMAND
+  def start_turn
+    if in_hospital?
+      @status = Status::TURN_END
+      @special_status[:IN_HOSPITAL] -= 1
+      if in_hospital?.equal? 0
+        @special_status.delete :IN_HOSPITAL
+      end
+    elsif in_prison?
+      @status = Status::TURN_END
+      @special_status[:IN_PRISON] -= 1
+      if in_prison?.equal? 0
+        @special_status.delete :IN_PRISON
+      end
+    else
+      @status = Status::WAIT_FOR_COMMAND
+    end
   end
 
   def execute(command)

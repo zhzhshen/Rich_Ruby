@@ -10,7 +10,11 @@ if __FILE__ == $0
 
   loop do
     puts '请选择玩家初始资金 范围1000～50000（默认10000)'
-    @balance = gets.chomp.to_i
+    input_string = gets
+    if input_string == "\n"
+      break
+    end
+    @balance = input_string.chomp.to_i
 
     break if (@balance >= 1000 && @balance <= 50000)
   end
@@ -53,5 +57,13 @@ if __FILE__ == $0
   @game = Game.new(@map, *@players)
 
   @map.print_map
+
+  while
+    @game.start_turn
+    while (!game.getActivePlayer().getStatus().equals(Player.Status.TURN_END))
+      @map.print_map
+    end
+    @game.end_turn
+  end
 
 end

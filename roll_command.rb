@@ -1,3 +1,4 @@
+require './command'
 class RollCommand < Command
 
   def initialize(dice = lambda {1})

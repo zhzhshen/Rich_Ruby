@@ -95,7 +95,7 @@ class GameMap
 
   def move_step_forward(start, step)
     target = start + step
-    target > @places.size ? target % @places.size : target
+    target >= @places.size ? target % @places.size : target
   end
 
   def clear_items(start, step)

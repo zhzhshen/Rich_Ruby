@@ -18,7 +18,7 @@ describe RollCommand do
   before(:each) do
     @map = double
     @player = Player.new @map, INITIAL_BALANCE, INITIAL_POINT
-    @player.startTurn
+    @player.start_turn
     @command = RollCommand.new
 
     expect(@player.position).to eq(0)

@@ -9,7 +9,7 @@ describe SellToolCommand do
       @player = Player.new @map, INITIAL_BALANCE, INITIAL_POINT
       @game = Game.new @map, @player
 
-      @player.startTurn
+      @player.start_turn
 
       expect(@player.status).to eq(Player::Status::WAIT_FOR_COMMAND)
     end

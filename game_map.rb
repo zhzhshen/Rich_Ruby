@@ -86,8 +86,8 @@ class GameMap
     target = self.move_step_forward player.position, step
     item = @items.select {|pos, item| self.in_between(pos, player.position, target)}.first
     if !item.nil?
-      @items.delete item
-      item[1].new.trigger(player, item[0])
+      @items.delete item[0]
+      item[1].trigger(player, item[0])
     else
       player.position = target
     end

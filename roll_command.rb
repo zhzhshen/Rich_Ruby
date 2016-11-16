@@ -1,7 +1,7 @@
 require './command'
 class RollCommand < Command
 
-  def initialize(dice = lambda {1})
+  def initialize(dice = lambda {1 + rand(6)})
     @dice = dice
   end
 
@@ -14,6 +14,4 @@ class RollCommand < Command
     player.map.place_at(player.position).visit_by player
   end
 
-  def respond(player, response)
-  end
 end

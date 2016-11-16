@@ -1,13 +1,13 @@
 
 class Player
-  attr_accessor :status, :position, :map, :money, :point, :items, :name
+  attr_accessor :status, :position, :map, :money, :point, :items, :name, :color
 
   def initialize(map, money, point, name = '', legend = '', color = '')
     @map = map
     @position = 0
     @money = money
     @special_status = Hash.new
-    @items = Array.new
+    @items = [BOMB, BLOCK, ROBOT]
     @point = point
     @name = name
     @legend = legend

@@ -13,6 +13,7 @@ class BombCommand < Command
     if player.items.any? { |item| item.equal? BOMB } && @steps.abs<=10 && player.map.item_at(target_position).nil? && player.map.player_at(target_position).nil?
       player.items.delete BOMB
       player.map.put_item(BOMB, target_position)
+      '使用炸弹成功'
     end
   end
 

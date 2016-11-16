@@ -1,3 +1,6 @@
+require './place'
+require './player'
+
 class Estate < Place
   MAX_LEVEL = 3
   attr_accessor :position, :price, :owner, :level
@@ -9,10 +12,10 @@ class Estate < Place
   end
 
   def print_map
-    if @owner.nil?
-      print @level
+    if !@owner.nil?
+      print @owner.color + @level.to_s + Player::Color::ANSI_RESET
     else
-      print @owner.color + @level.to_s + Color::ANSI_RESET
+      print @level
     end
   end
 
@@ -43,17 +46,24 @@ class BuyLandCommand
 
   def execute(player)
     player.status = Player::Status::WAIT_FOR_RESPONSE
+    '是否购买土地? Y/N'
   end
 
   def respond(player, response)
-    case response.upcase
-      when 'N'
-      when 'Y'
-        if player.reduce_money @estate.price
-          @estate.owner = player
-        end
+    if response.upcase.eql?('N')
+      message = '放弃购买土地'
+    elsif response.upcase.eql?('Y')
+      if !!player.reduce_money(@estate.price)
+        @estate.owner = player
+        message = '购买土地成功'
+      else
+        message = '购买土地失败'
+      end
+    else
+      message = '放弃购买土地'
     end
     player.status = Player::Status::TURN_END
+    puts message
   end
 
 end
@@ -65,17 +75,24 @@ class BuildLandCommand
 
   def execute(player)
     player.status = Player::Status::WAIT_FOR_RESPONSE
+    '是否升级土地? Y/N'
   end
 
   def respond(player, response)
-    case response.upcase
-      when 'N'
-      when 'Y'
-        if !@estate.max_level? && player.reduce_money(@estate.price)
-          @estate.build
-        end
+    if response.upcase.eql?('N')
+      message = '放弃升级土地'
+    elsif response.upcase.eql?('Y')
+      if !@estate.max_level? && !!player.reduce_money(@estate.price)
+        @estate.build
+        message = '升级土地成功'
+      else
+        message = '升级土地失败'
+      end
+    else
+      message = '放弃升级土地'
     end
     player.status = Player::Status::TURN_END
+    message
   end
 end
 
@@ -87,11 +104,14 @@ class ChargeLandCommand
   def execute(player)
     unless @estate.owner.in_hospital? || @estate.owner.in_prison? || player.has_evisu?
       charge = 2**@estate.level * @estate.price / 2
-      if (player.reduce_money charge)
+      if !!player.reduce_money(charge)
         @estate.owner.gain_money charge
+        player.status = Player::Status::TURN_END
+        return '向' + @estate.owner.name + '付过路费' + charge.to_s + '元'
       else
         @estate.owner.gain_money player.money
-        return player.status = Player::Status::BROKEN
+        player.status = Player::Status::BROKEN
+        return '余额不足以向' + @estate.owner.name + '付过路费' + charge.to_s + '元, 扑街'
       end
     end
     player.status = Player::Status::TURN_END

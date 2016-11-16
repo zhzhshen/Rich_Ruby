@@ -61,17 +61,19 @@ if __FILE__ == $0
     @game.start_turn
     while !(@game.current_player.status.equal? Player::Status::TURN_END)
       @map.print_map
-
       player = @game.current_player
+      print player.name + '>'
       case player.status
-        when Player::Status::WAIT_FOR_COMMAND
-          print player.name + '>'
+      when Player::Status::WAIT_FOR_COMMAND
           parser = CommandParser.new
-          player.execute(parser.parse(gets))
-        when Player::Status::WAIT_FOR_RESPONSE
-          player.respond gets
+          command = parser.parse(gets.chomp)
+          if command.nil?
+            next
+          end
+          puts player.execute(command)
+      when Player::Status::WAIT_FOR_RESPONSE
+          puts player.respond(gets.chomp)
       end
-
     end
     @game.end_turn
   end

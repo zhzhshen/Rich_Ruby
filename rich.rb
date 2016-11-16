@@ -33,19 +33,19 @@ if __FILE__ == $0
         when 1
           name = '钱夫人'
           legend = 'Q'
-          color = 'r'
+          color = Player::Color::ANSI_RED
         when 2
           name = '阿土伯'
           legend = 'A'
-          color = 'y'
+          color = Player::Color::ANSI_YELLOW
         when 3
           name = '小丹尼'
           legend = 'X'
-          color = 'b'
+          color = Player::Color::ANSI_BLUE
         when 4
           name = '金贝贝'
           legend = 'J'
-          color = 'g'
+          color = Player::Color::ANSI_GREEN
         else
           valid &= false
       end
@@ -56,12 +56,21 @@ if __FILE__ == $0
 
   @game = Game.new(@map, *@players)
 
-  @map.print_map
-
-  while
+  while true
     @game.start_turn
-    while (!game.getActivePlayer().getStatus().equals(Player.Status.TURN_END))
+    while !(@game.current_player.status.equal? Player::Status::TURN_END)
       @map.print_map
+
+      player = @game.current_player
+      case player.status
+        when Player::Status::WAIT_FOR_COMMAND
+          print player.name + '>'
+          command_string = gets
+          # player.execute
+        when Player::Status::WAIT_FOR_RESPONSE
+          player.respond gets
+      end
+
     end
     @game.end_turn
   end

@@ -53,6 +53,7 @@ class GameMap
     (35..63).each {|x|
       self.print_at (98 - x)
     }
+    puts
   end
 
   def print_at(pos)

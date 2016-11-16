@@ -1,6 +1,6 @@
 
 class Player
-  attr_accessor :status, :position, :map, :money, :point, :items
+  attr_accessor :status, :position, :map, :money, :point, :items, :name
 
   def initialize(map, money, point, name = '', legend = '', color = '')
     @map = map
@@ -16,7 +16,7 @@ class Player
   end
 
   def print_map
-    print @legend
+    print @color + @legend + Color::ANSI_RESET
   end
 
   def start_turn
@@ -96,6 +96,14 @@ class Player
     WAIT_FOR_RESPONSE = 'WAIT_FOR_RESPONSE'
     TURN_END = 'TURN_END'
     BROKEN = 'BROKEN'
+  end
+
+  module Color
+    ANSI_RESET = "\u001B[0m"
+    ANSI_RED = "\u001B[31m"
+    ANSI_GREEN = "\u001B[32m"
+    ANSI_YELLOW = "\u001B[33m"
+    ANSI_BLUE = "\u001B[34m"
   end
 
 end

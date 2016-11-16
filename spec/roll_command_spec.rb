@@ -8,6 +8,7 @@ require_relative '../magic_house'
 require_relative '../hospital'
 require_relative '../police'
 require_relative '../tool_house'
+require_relative '../mine'
 
 describe RollCommand do
   INITIAL_BALANCE = 1000
@@ -127,6 +128,18 @@ describe RollCommand do
       @player.execute @command
 
       expect(@player.location).to eq(1)
+      expect(@player.status).to eq(Player::Status::TURN_END)
+    end
+
+    it 'should move player to tool house then turn end when not enough point for cheapest tool' do
+      @player.point = 0
+      mine = Mine.new 0, 50
+      allow(@map).to receive(:place_at).with(1) { mine }
+
+      @player.execute @command
+
+      expect(@player.location).to eq(1)
+      expect(@player.point).to eq(50)
       expect(@player.status).to eq(Player::Status::TURN_END)
     end
 

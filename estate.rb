@@ -8,6 +8,10 @@ class Estate < Place
     @level = 0
   end
 
+  def print_map
+    print @level
+  end
+
   def visit_by(player)
     if @owner.nil?
       player.execute BuyLandCommand.new self

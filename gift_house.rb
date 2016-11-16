@@ -3,6 +3,10 @@ class GiftHouse < Place
   def visit_by(player)
     player.execute ChooseGiftCommand.new
   end
+
+  def print_map
+    print 'G'
+  end
 end
 
 class ChooseGiftCommand

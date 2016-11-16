@@ -1,14 +1,21 @@
 
 class Player
-  attr_accessor :status, :location, :map, :money, :point, :items
+  attr_accessor :status, :position, :map, :money, :point, :items
 
-  def initialize(map, money, point)
+  def initialize(map, money, point, name = '', legend = '', color = '')
     @map = map
-    @location = 0
+    @position = 0
     @money = money
     @special_status = Hash.new
     @items = Array.new
     @point = point
+    @name = name
+    @legend = legend
+    @color = color
+  end
+
+  def print_map
+    print @legend
   end
 
   def startTurn
@@ -25,7 +32,7 @@ class Player
   end
 
   def visit
-    @map.place_at(@location).visit_by self
+    @map.place_at(@position).visit_by self
   end
 
   def reduce_money(amount)
@@ -46,7 +53,7 @@ class Player
 
   def burn
     @special_status[:IN_HOSPITAL] = 3
-    @location = @map.get_hospital_location
+    @position = @map.get_hospital_location
   end
 
   def in_hospital?

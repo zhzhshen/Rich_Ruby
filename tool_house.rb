@@ -4,6 +4,10 @@ class ToolHouse < Place
   def visit_by(player)
     player.execute BuyToolCommand.new
   end
+
+  def print_map
+    print 'T'
+  end
 end
 
 class BuyToolCommand
@@ -46,7 +50,11 @@ BOMB_POINT = 50
 class Block
   @point = BLOCK_POINT
   def trigger(player, position)
-    player.location = position
+    player.position = position
+  end
+
+  def print_map
+    print '#'
   end
 end
 
@@ -58,6 +66,10 @@ class Bomb
   @point = BOMB_POINT
   def trigger(player, position)
     player.burn
+  end
+
+  def print_map
+    print '@'
   end
 end
 

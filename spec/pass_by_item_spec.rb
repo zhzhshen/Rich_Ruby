@@ -14,7 +14,7 @@ describe 'player walk by item' do
 
     @player.startTurn
 
-    expect(@player.location).to eq(0)
+    expect(@player.position).to eq(0)
     expect(@player.status).to eq(Player::Status::WAIT_FOR_COMMAND)
   end
 
@@ -24,7 +24,7 @@ describe 'player walk by item' do
 
     @player.execute @command
 
-    expect(@player.location).to eq(1)
+    expect(@player.position).to eq(1)
     expect(@player.status).to eq(Player::Status::WAIT_FOR_RESPONSE)
   end
 
@@ -34,7 +34,7 @@ describe 'player walk by item' do
 
     @player.execute @command
 
-    expect(@player.location).to eq(2)
+    expect(@player.position).to eq(2)
     expect(@player.in_hospital?).to eq(3)
     expect(@player.status).to eq(Player::Status::TURN_END)
   end

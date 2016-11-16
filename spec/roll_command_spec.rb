@@ -21,7 +21,7 @@ describe RollCommand do
     @player.startTurn
     @command = RollCommand.new
 
-    expect(@player.location).to eq(0)
+    expect(@player.position).to eq(0)
     expect(@command).to receive(:roll) { 1 }
     expect(@map).to receive(:move).with(@player, 1) { 1 }
   end
@@ -33,7 +33,7 @@ describe RollCommand do
 
       @player.execute @command
 
-      expect(@player.location).to eq(1)
+      expect(@player.position).to eq(1)
       expect(@player.status).to eq(Player::Status::WAIT_FOR_RESPONSE)
     end
 
@@ -44,7 +44,7 @@ describe RollCommand do
 
       @player.execute @command
 
-      expect(@player.location).to eq(1)
+      expect(@player.position).to eq(1)
       expect(@player.status).to eq(Player::Status::WAIT_FOR_RESPONSE)
     end
 
@@ -55,7 +55,7 @@ describe RollCommand do
 
       @player.execute @command
 
-      expect(@player.location).to eq(1)
+      expect(@player.position).to eq(1)
       expect(@player.status).to eq(Player::Status::TURN_END)
     end
 
@@ -65,7 +65,7 @@ describe RollCommand do
 
       @player.execute @command
 
-      expect(@player.location).to eq(1)
+      expect(@player.position).to eq(1)
       expect(@player.status).to eq(Player::Status::TURN_END)
     end
 
@@ -75,7 +75,7 @@ describe RollCommand do
 
       @player.execute @command
 
-      expect(@player.location).to eq(1)
+      expect(@player.position).to eq(1)
       expect(@player.status).to eq(Player::Status::WAIT_FOR_RESPONSE)
     end
 
@@ -85,7 +85,7 @@ describe RollCommand do
 
       @player.execute @command
 
-      expect(@player.location).to eq(1)
+      expect(@player.position).to eq(1)
       expect(@player.status).to eq(Player::Status::TURN_END)
     end
 
@@ -95,7 +95,7 @@ describe RollCommand do
 
       @player.execute @command
 
-      expect(@player.location).to eq(1)
+      expect(@player.position).to eq(1)
       expect(@player.status).to eq(Player::Status::TURN_END)
     end
 
@@ -106,7 +106,7 @@ describe RollCommand do
       @player.execute @command
 
       expect(@player.in_prison?).to eq(2)
-      expect(@player.location).to eq(1)
+      expect(@player.position).to eq(1)
       expect(@player.status).to eq(Player::Status::TURN_END)
     end
 
@@ -116,7 +116,7 @@ describe RollCommand do
 
       @player.execute @command
 
-      expect(@player.location).to eq(1)
+      expect(@player.position).to eq(1)
       expect(@player.status).to eq(Player::Status::WAIT_FOR_RESPONSE)
     end
 
@@ -127,7 +127,7 @@ describe RollCommand do
 
       @player.execute @command
 
-      expect(@player.location).to eq(1)
+      expect(@player.position).to eq(1)
       expect(@player.status).to eq(Player::Status::TURN_END)
     end
 
@@ -138,7 +138,7 @@ describe RollCommand do
 
       @player.execute @command
 
-      expect(@player.location).to eq(1)
+      expect(@player.position).to eq(1)
       expect(@player.point).to eq(50)
       expect(@player.status).to eq(Player::Status::TURN_END)
     end
@@ -154,7 +154,7 @@ describe RollCommand do
 
         @player.execute @command
 
-        expect(@player.location).to eq(1)
+        expect(@player.position).to eq(1)
         expect(@player.status).to eq(Player::Status::WAIT_FOR_RESPONSE)
       end
 
@@ -192,7 +192,7 @@ describe RollCommand do
 
         @player.execute @command
 
-        expect(@player.location).to eq(1)
+        expect(@player.position).to eq(1)
         expect(@player.status).to eq(Player::Status::WAIT_FOR_RESPONSE)
       end
 
@@ -324,7 +324,7 @@ describe RollCommand do
 
         @player.execute @command
 
-        expect(@player.location).to eq(1)
+        expect(@player.position).to eq(1)
         expect(@player.status).to eq(Player::Status::WAIT_FOR_RESPONSE)
       end
 
@@ -360,7 +360,7 @@ describe RollCommand do
 
         @player.execute @command
 
-        expect(@player.location).to eq(1)
+        expect(@player.position).to eq(1)
         expect(@player.status).to eq(Player::Status::WAIT_FOR_RESPONSE)
       end
 

@@ -9,7 +9,11 @@ class Estate < Place
   end
 
   def print_map
-    print @owner.color + @level.to_s + Color::ANSI_RESET
+    if @owner.nil?
+      print @level
+    else
+      print @owner.color + @level.to_s + Color::ANSI_RESET
+    end
   end
 
   def visit_by(player)

@@ -2,6 +2,7 @@
 require './game_map'
 require './game'
 require './player'
+require './command_parser'
 
 if __FILE__ == $0
   puts 'Welcome to Rich World!'
@@ -65,8 +66,8 @@ if __FILE__ == $0
       case player.status
         when Player::Status::WAIT_FOR_COMMAND
           print player.name + '>'
-          command_string = gets
-          # player.execute
+          parser = CommandParser.new
+          player.execute(parser.parse(gets))
         when Player::Status::WAIT_FOR_RESPONSE
           player.respond gets
       end

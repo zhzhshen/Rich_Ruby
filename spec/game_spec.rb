@@ -92,8 +92,7 @@ describe Game do
 
     it 'should skip two turns when in prison' do
       @player2.prisoned
-      expect(@player2.position).to eq(1)
-      expect(@player2.in_hospital?).to eq(2)
+      expect(@player2.in_prison?).to eq(2)
 
       @player1.execute RollCommand.new lambda {1}
       expect(@player1.status).to eq(Player::Status::TURN_END)
@@ -104,7 +103,7 @@ describe Game do
       expect(@game.current_player).to eq(@player1)
       expect(@player1.status).to eq(Player::Status::WAIT_FOR_COMMAND)
       expect(@player2.status).to eq(Player::Status::TURN_END)
-      expect(@player2.in_hospital?).to eq(1)
+      expect(@player2.in_prison?).to eq(1)
 
       @player1.execute RollCommand.new lambda {1}
 
@@ -114,7 +113,7 @@ describe Game do
       expect(@game.current_player).to eq(@player1)
       expect(@player1.status).to eq(Player::Status::WAIT_FOR_COMMAND)
       expect(@player2.status).to eq(Player::Status::TURN_END)
-      expect(@player2.in_hospital?).to eq(nil)
+      expect(@player2.in_prison?).to eq(nil)
 
       @player1.execute RollCommand.new lambda {1}
 

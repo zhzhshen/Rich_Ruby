@@ -19,7 +19,7 @@ describe 'player walk by item' do
   end
 
   it 'should stop by block and visit place' do
-    @map.put_item Block, 1
+    @map.put_item BLOCK, 1
     @command = RollCommand.new lambda {2}
 
     @player.execute @command
@@ -29,7 +29,7 @@ describe 'player walk by item' do
   end
 
   it 'should stop by bomb and move to hospital' do
-    @map.put_item Bomb, 1
+    @map.put_item BOMB, 1
     @command = RollCommand.new lambda {2}
 
     @player.execute @command

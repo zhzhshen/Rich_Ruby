@@ -7,7 +7,7 @@ class Player
     @position = 0
     @money = money
     @special_status = Hash.new
-    @items = [BOMB, BLOCK, ROBOT]
+    @items = Array.new
     @point = point
     @name = name
     @legend = legend

@@ -63,7 +63,7 @@ class BuyLandCommand
       message = '放弃购买土地'
     end
     player.status = Player::Status::TURN_END
-    puts message
+    message
   end
 
 end

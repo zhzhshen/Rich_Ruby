@@ -1,5 +1,8 @@
 require './command'
 class SellCommand < Command
+
+  attr_accessor :position
+
   def initialize(position)
     @position = position
   end

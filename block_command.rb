@@ -1,6 +1,9 @@
 require './command'
 
 class BlockCommand < Command
+
+  attr_accessor :steps
+
   def initialize(steps)
     @steps = steps
   end

@@ -1,5 +1,8 @@
 require './command'
 class SellToolCommand < Command
+
+  attr_accessor :itemIndex
+
   def initialize(itemIndex)
     @itemIndex = itemIndex
   end

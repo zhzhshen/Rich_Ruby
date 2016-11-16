@@ -1,6 +1,9 @@
 require './command'
 
 class BombCommand < Command
+
+  attr_accessor :steps
+
   def initialize(steps)
     @steps = steps
   end

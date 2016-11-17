@@ -1,4 +1,4 @@
-require './command'
+require_relative './command'
 class SellCommand < Command
 
   attr_accessor :position

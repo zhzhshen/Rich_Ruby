@@ -1,4 +1,4 @@
-require './command'
+require_relative './command'
 class SellToolCommand < Command
 
   attr_accessor :itemIndex

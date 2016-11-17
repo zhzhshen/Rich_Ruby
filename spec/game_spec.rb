@@ -1,9 +1,10 @@
 require 'rspec'
-require_relative '../game_map'
-require_relative '../game'
-require_relative '../starting_point'
-require_relative '../player'
-require_relative '../roll_command'
+require_relative '../lib/command/block_command'
+require_relative '../lib/game_map'
+require_relative '../lib/game'
+require_relative '../lib/place/starting_point'
+require_relative '../lib/player'
+require_relative '../lib/command/roll_command'
 
 describe Game do
   describe '#initialize' do

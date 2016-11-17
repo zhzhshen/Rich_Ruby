@@ -1,5 +1,5 @@
 require 'rspec'
-require_relative '../sell_tool_command'
+require_relative '../lib/command/sell_tool_command'
 
 describe SellToolCommand do
 

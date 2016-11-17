@@ -1,4 +1,4 @@
-require './place'
+require_relative './place'
 
 class StartingPoint < Place
   def print_map

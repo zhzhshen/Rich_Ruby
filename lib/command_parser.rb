@@ -1,9 +1,9 @@
-require './roll_command'
-require './block_command'
-require './bomb_command'
-require './robot_command'
-require './sell_command'
-require './sell_tool_command'
+require_relative './command/roll_command'
+require_relative './command/block_command'
+require_relative './command/bomb_command'
+require_relative './command/robot_command'
+require_relative './command/sell_command'
+require_relative './command/sell_tool_command'
 
 class CommandParser
   def parse(command_string)

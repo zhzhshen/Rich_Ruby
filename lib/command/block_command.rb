@@ -1,4 +1,4 @@
-require './command'
+require_relative './command'
 
 class BlockCommand < Command
 

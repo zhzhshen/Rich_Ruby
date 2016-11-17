@@ -1,11 +1,11 @@
 require 'rspec'
-require_relative '../command_parser'
-require_relative '../roll_command'
-require_relative '../block_command'
-require_relative '../bomb_command'
-require_relative '../robot_command'
-require_relative '../sell_command'
-require_relative '../sell_tool_command'
+require_relative '../lib/command_parser'
+require_relative '../lib/command/roll_command'
+require_relative '../lib/command/block_command'
+require_relative '../lib/command/bomb_command'
+require_relative '../lib/command/robot_command'
+require_relative '../lib/command/sell_command'
+require_relative '../lib/command/sell_tool_command'
 
 describe CommandParser do
 

@@ -1,9 +1,9 @@
 require 'rspec'
-require_relative '../game_map'
-require_relative '../starting_point'
-require_relative '../estate'
-require_relative '../player'
-require_relative '../hospital'
+require_relative '../lib/game_map'
+require_relative '../lib/place/starting_point'
+require_relative '../lib/place/estate'
+require_relative '../lib/player'
+require_relative '../lib/place/hospital'
 
 describe 'player walk by item' do
 

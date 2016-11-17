@@ -1,5 +1,5 @@
-require './place'
-require './player'
+require_relative './place'
+require_relative '../player'
 
 class Estate < Place
   MAX_LEVEL = 3

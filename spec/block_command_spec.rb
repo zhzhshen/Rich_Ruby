@@ -1,9 +1,9 @@
 require 'rspec'
-require_relative '../block_command'
-require_relative '../starting_point'
-require_relative '../game_map'
-require_relative '../estate'
-require_relative '../game'
+require_relative '../lib/command/block_command'
+require_relative '../lib/place/starting_point'
+require_relative '../lib/game_map'
+require_relative '../lib/place/estate'
+require_relative '../lib/game'
 
 describe BlockCommand do
 

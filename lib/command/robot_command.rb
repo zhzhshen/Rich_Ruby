@@ -1,4 +1,4 @@
-require './command'
+require_relative './command'
 class RobotCommand < Command
   def execute(player)
     if player.items.any? { |item| item.equal? ROBOT }

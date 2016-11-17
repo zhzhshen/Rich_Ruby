@@ -1,4 +1,4 @@
-require './command'
+require_relative './command'
 class RollCommand < Command
 
   def initialize(dice = lambda {1 + rand(6)})

@@ -1,4 +1,4 @@
-require './place'
+require_relative './place'
 
 class ToolHouse < Place
   def visit_by(player)

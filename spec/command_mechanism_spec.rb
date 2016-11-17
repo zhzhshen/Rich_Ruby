@@ -1,6 +1,6 @@
 require 'rspec'
-require_relative '../player'
-require_relative '../command'
+require_relative '../lib/player'
+require_relative '../lib/command/command'
 
 describe Player do
 

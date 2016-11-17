@@ -1,11 +1,11 @@
-require './starting_point'
-require './estate'
-require './hospital'
-require './tool_house'
-require './gift_house'
-require './magic_house'
-require './mine'
-require './police'
+require_relative './place/starting_point'
+require_relative './place/estate'
+require_relative './place/hospital'
+require_relative './place/tool_house'
+require_relative './place/gift_house'
+require_relative './place/magic_house'
+require_relative './place/mine'
+require_relative './place/police'
 class GameMap
 
   attr_accessor :players
